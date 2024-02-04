@@ -22,7 +22,8 @@ function App() {
   }, [todos])
 
   const removeTodoHandler = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id))
+    const filteredTodos = todos.filter((todo) => todo.id !== id)
+    setTodos(filteredTodos)
   }
 
   const resetTodoHandler = () => {
@@ -35,13 +36,10 @@ function App() {
   }
 
   const toggleTodoHandler = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id
-          ? { ...todo, isCompleted: !todo.isCompleted }
-          : { ...todo }
-      )
+    const draft = todos.map((todo) =>
+      todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : { ...todo }
     )
+    setTodos(draft)
   }
 
   const completedTodosCount = todos.filter((todo) => todo.isCompleted).length
