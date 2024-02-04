@@ -6,7 +6,7 @@ import TodoList from './components/Todos/TodoList'
 import TodosActions from './components/Todos/TodosActions'
 
 function App() {
-  const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')))
+  const [todos, setTodos] = useState([])
 
   const addTodoHandler = (text) => {
     const newTodo = {
@@ -16,10 +16,6 @@ function App() {
     }
     setTodos([...todos, newTodo])
   }
-
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }, [todos])
 
   const removeTodoHandler = (id) => {
     const filteredTodos = todos.filter((todo) => todo.id !== id)
@@ -43,6 +39,18 @@ function App() {
   }
 
   const completedTodosCount = todos.filter((todo) => todo.isCompleted).length
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
+
+  useEffect(() => {
+    if (localStorage.getItem('todos') !== null) {
+      setTodos(JSON.parse(localStorage.getItem('todos')))
+    } else {
+      localStorage.setItem('todos', JSON.stringify([]))
+    }
+  }, [])
 
   return (
     <div className="App">
